@@ -1,0 +1,34 @@
+{
+  "name": "puc",
+  "version": "1.0.0",
+  "description": "puc",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "./node_modules/.bin/eslint . --ext .js --quiet",
+    "lint fix": "./node_modules/.bin/eslint . --ext .js --quiet --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wmora/puc.git"
+  },
+  "author": "William Mora",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wmora/puc/issues"
+  },
+  "homepage": "https://github.com/wmora/puc#readme",
+  "dependencies": {
+    "express": "^4.15.3"
+  },
+  "devDependencies": {
+    "eslint": "^4.1.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.6.0",
+    "eslint-plugin-node": "^5.1.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-react": "^7.1.0",
+    "eslint-plugin-standard": "^3.0.1"
+  }
+}
