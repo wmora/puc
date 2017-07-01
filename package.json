@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/wmora/puc#readme",
   "dependencies": {
+    "ajv": "^5.2.0",
+    "body-parser": "^1.17.2",
     "express": "^4.15.3"
   },
   "devDependencies": {
