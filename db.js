@@ -1,9 +1,14 @@
-const db = require('mongoose');
+const mongoose = require('mongoose');
+const db = mongoose.connection;
+
+exports.db = db;
 
 exports.connect = () => {
-	db.connect('mongodb://localhost/puc', { useMongoClient: true }, (err) => {
+	mongoose.Promise = Promise;
+	
+	db.open('mongodb://localhost:27017/puc', (err) => {
 		if (err) {
-			console.error.bind(console, 'connection error:');
+			console.error('db connection error', err);
 		} else {
 			console.log('db connection successful');
 		}
