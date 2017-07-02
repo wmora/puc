@@ -1,5 +1,7 @@
 const Ajv = require('ajv');
 const ajv = new Ajv();
+const {Schema} = require('mongoose');
+const {db} = require('../db');
 
 const schema = {
 	required: ['exercises'],
@@ -13,6 +15,18 @@ const schema = {
 	}
 };
 
+const ExerciseSchema = new Schema({
+	type: String,
+	count: Number
+});
+
+const SetSchema = new Schema({
+	exercises: [ExerciseSchema],
+	datePerformed: Date
+});
+
+const Set = db.model('Set', SetSchema);
+
 module.exports.post = (request, response) => {	
 	const valid = ajv.validate(schema, request.body);
 
@@ -24,7 +38,13 @@ module.exports.post = (request, response) => {
 			}
 		});
 	} else {
-		// TODO: save somewhere
-		response.status(201).send('Created');	
+		const set = new Set(request.body);
+		
+		set.save((err, doc) => {
+			if (err) {
+				return response.status(500);
+			}
+			return response.status(201).send(doc.toObject());
+		});
 	}
 };
