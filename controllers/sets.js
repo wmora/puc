@@ -38,7 +38,16 @@ module.exports.post = (request, response) => {
 			}
 		});
 	} else {
-		const set = new Set(request.body);
+		if (!request.body.datePerformed) {
+			request.body.datePerformed = new Date();
+		}
+		
+		const {exercises, datePerformed} = request.body;
+
+		const set = new Set({
+			exercises,
+			datePerformed
+		});
 		
 		set.save((err, doc) => {
 			if (err) {
