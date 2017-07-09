@@ -4,8 +4,11 @@ const {Schema} = require('mongoose');
 const {db} = require('../db');
 
 const schema = {
-	required: ['exercises'],
+	required: ['exercises', 'userId'],
 	properties: {
+		userId: {
+			type: 'string'
+		},
 		exercises: {
 			type: 'array'
 		},
@@ -21,6 +24,7 @@ const ExerciseSchema = new Schema({
 });
 
 const SetSchema = new Schema({
+	userId: String,
 	exercises: [ExerciseSchema],
 	datePerformed: Date
 });
@@ -28,7 +32,16 @@ const SetSchema = new Schema({
 const Set = db.model('Set', SetSchema);
 
 module.exports.post = (request, response) => {	
-	const valid = ajv.validate(schema, request.body);
+	const userId = request.params.userId;
+	const {exercises, datePerformed} = request.body;
+
+	const setData = {
+		userId,
+		exercises,
+		datePerformed
+	};
+
+	const valid = ajv.validate(schema, setData);
 
 	if (!valid) {
 		response.status(400).send({
@@ -38,16 +51,9 @@ module.exports.post = (request, response) => {
 			}
 		});
 	} else {
-		if (!request.body.datePerformed) {
-			request.body.datePerformed = new Date();
-		}
-		
-		const {exercises, datePerformed} = request.body;
+		setData.datePerformed = setData.datePerformed || new Date();
 
-		const set = new Set({
-			exercises,
-			datePerformed
-		});
+		const set = new Set(setData);
 		
 		set.save((err, doc) => {
 			if (err) {
