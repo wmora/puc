@@ -7,7 +7,7 @@ const PORT = 2424;
 
 app.use(bodyParser.json());
 
-app.post('/sets', (request, response) => {
+app.post('/users/:userId/sets', (request, response) => {
 	setsController.post(request, response);
 });
 
